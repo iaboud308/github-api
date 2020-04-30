@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Form from './Components/Form';
+import Display from './Components/Display';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    username: '',
+    userProfile: ''
+  }
+
+  getUserInput(event) {
+    let userInput = event.target.value;
+    this.setState({username: userInput});
+    this.fetchUser();
+}
+
+  fetchUser() {
+    fetch(`https://api.github.com/users/${this.state.username}`)
+     .then( (response) => {
+         return response.json();
+     })
+      .then( (userProfile) => {
+          this.setState({userProfile: userProfile})
+      })
+      .catch( (error) => {
+        console.log(error);
+      })
+  }
+
+  render () {
+    return (
+      <div className = 'container text-center'>
+       <Form onHandle = {(event) => {
+         this.getUserInput (event) 
+        }}
+          username = {this.state.username} />
+        <Display userInput = {this.state.username} 
+          userProfile = {this.state.userProfile} />
+      </div>
+     );
+  }
+  
 }
 
 export default App;
