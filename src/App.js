@@ -16,8 +16,7 @@ class App extends React.Component {
 }
 
   fetchUser() {
-    // fetch(`https://api.github.com/users/${this.state.username}`)
-    fetch(`https://5e79df6617314d00161338f9.mockapi.io/users/${this.state.username}`)
+    fetch(`https://api.github.com/users/${this.state.username}`)
      .then( (response) => {
          return response.json();
      })
