@@ -1,12 +1,14 @@
 import React from 'react';
 import Form from './Components/Form';
 import Display from './Components/Display';
+import Navbar from './Components/Navbar';
 
 class App extends React.Component {
 
   state = {
     username: '',
-    userProfile: ''
+    userProfile: '',
+    someError: false
   }
 
   getUserInput(event) {
@@ -14,10 +16,18 @@ class App extends React.Component {
     this.setState({username: userInput});
     this.fetchUser();
 }
-
+ 
   fetchUser() {
-    fetch(`https://api.github.com/users/${this.state.username}`)
+    fetch(`https://api.github.com/users/${this.state.username}`, {
+      headers: {
+        'Authorization': `Token ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`
+      }
+    })
      .then( (response) => {
+         console.log(response.status);
+          if (response.status === 404) {
+            this.setState({someError: true})
+          }
          return response.json();
      })
       .then( (userProfile) => {
@@ -30,14 +40,18 @@ class App extends React.Component {
 
   render () {
     return (
-      <div className = 'container text-center'>
+      <React.Fragment>
+        <Navbar />
+      <div className = 'text-center'>
        <Form onHandle = {(event) => {
          this.getUserInput (event) 
         }}
           username = {this.state.username} />
         <Display userInput = {this.state.username} 
-          userProfile = {this.state.userProfile} />
+          userProfile = {this.state.userProfile} 
+          someError = {this.state.someError} />
       </div>
+      </React.Fragment>
      );
   }
   

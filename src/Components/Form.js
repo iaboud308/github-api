@@ -7,15 +7,17 @@ class Form extends Component {
     render () {
 
         return (
-            <div>
+            <div className = 'bg-info'>
                 <form>
-                    <input className = 'form-control container m-5' 
-                        type = 'text' 
-                        value = {this.props.username} 
-                        onChange = {(event) => {
-                            this.props.onHandle(event);
-                        }}>
-                    </input>
+                    <label className = 'text-white font-weight-bold form-group m-5 container'> Enter Username:
+                        <input className = 'form-control p-4 m-2' 
+                            type = 'text' 
+                            value = {this.props.username} 
+                            onChange = {(event) => {
+                                this.props.onHandle(event);
+                            }}>
+                        </input>
+                    </label>
                 </form>
             </div>
         )
