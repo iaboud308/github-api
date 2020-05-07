@@ -25,7 +25,7 @@ class App extends React.Component {
     })
      .then( (response) => {
          console.log(response.status);
-          if (response.status === 404) {
+          if (response.status === 404 || response.status === 401 || response.status === 403) {
             this.setState({someError: true})
           }
          return response.json();
